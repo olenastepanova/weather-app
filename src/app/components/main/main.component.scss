@@ -1,0 +1,37 @@
+#card{
+  background-image: url('../../../assets/image/background-3.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  background-repeat: no-repeat;
+}
+.forecast, .conditions{
+  background: rgba(255, 255, 255, 0.8);
+}
+.img-wind {
+  transform: rotate(45deg);
+}
+.card-body{
+  padding-bottom: 0!important;
+}
+p.card-text{
+  margin-bottom: 0px;
+}
+
+
+.weather-img-main {
+  height: 100px;
+  width: 110px;
+}
+
+.forecast-img {
+  height: 40px;
+  width: 40px;
+}
+
+.weather-img {
+  height: 50px;
+  width: 50px;
+}
+
+

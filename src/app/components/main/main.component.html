@@ -1,0 +1,149 @@
+<div class="container  mx-auto" id="main" *ngIf="weather; else loading"> 
+  <mdb-card id="card">
+    <mdb-card-body>
+      <!--Text-->
+      <mdb-card-text>
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h3 class="pt-4 ml-5 text-white">
+              {{ this.weather?.name }}, {{ this.weather?.sys.country }}
+            </h3>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <!-- Search form -->
+            <form class="md-form" [formGroup]="weatherSearchForm">
+              <input
+                (keyup.enter)="sendToOpenWeather(weatherSearchForm.value)"
+                formControlName="location"
+                type="search"
+                id="form-autocomplete-4"
+                class="form-control mdb-autocomplete text-white"
+              />
+
+              <label for="form-autocomplete-4" class="active text-white"
+                >Search another location</label
+              >
+            </form>
+          </div>
+        </div>
+
+        <div class="row text-white">
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-2 pl-3 ml-5 pr-0">
+                <!-- Image -->
+                <img
+                  src="../../../assets/image/{{
+                    this.pollution?.data.current.weather.ic
+                  }}.png"
+                  style="width: 50px; height: 50px;"
+                  alt=""
+                />
+              </div>
+              <div class="col-md-3 pl-0">
+                <!-- Temperature -->
+                <h1>{{ this.weather?.main.temp | number: "1.0-0" }}&#176;C</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORECAST -->
+        <div class="row py-3 mx-5 px-4">
+          <div
+            class="col-sm-6 col-md-4 col-lg-2 "
+            *ngFor="let item of forecast"
+          >
+            <div class="card p-2 forecast text-dark">
+              <div class="card-body p-2">
+                <p class="text-center mb-1">
+                  {{ item.dt * 1000 | date: "EE" }}
+                </p>
+                <p class="text-center">{{ item.dt_txt | date: "dd MMM" }}</p>
+                <div class="row mb-3 text-center">
+                  <div class="col">
+                    <img
+                      src="../../../assets/image/{{ item.weather[0].icon }}.png"
+                      class="forecast-img"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col">
+                    <p class="mb-1">
+                      {{ item.main.temp_min | number: "1.0-0" }} &#176;
+                    </p>
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col">
+                    <p>{{ item.main.temp_max | number: "1.0-0" }} &#176;</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRESSURE AND STUFF-->
+        <div class="row text-dark w-75 mx-auto ">
+          <div class="col-md-3 text-center">
+            <div class="card conditions">
+              <div class="card-body" style="height: 165px;">
+                <p>Humidity</p>
+                <img src="../../../assets/image/humidity-svg.svg" class="img-fluid weather-img mb-3" alt="">
+             
+                <p class="pt-2">{{ this.weather?.main.humidity }} %</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card text-center conditions" >
+              <div class="card-body" style="height: 165px;">
+                <p>Air Quality</p>
+                <p class="display-4 mb-2" [ngStyle]="calculateStyles()"> {{ this.pollution?.data.current.pollution.aqius }}</p>
+                <p [ngStyle]="calculateStyles()" >
+                  {{ this.pollutionStatus }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 text-center" >
+            <div class="card conditions">
+              <div class="card-body" style="height: 165px;">
+                <p>Wind</p>
+                <img src="../../../assets/image/wind-svg.svg" class="img-fluid weather-img mb-4" alt="">
+                <p>{{ this.weather?.wind.speed }} km/h</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 text-center" >
+            <div class="card conditions">
+              <div class="card-body" style="height: 165px;">
+                <p>Pressure</p>
+                <img src="../../../assets/image/gauge-pressure-svg.svg" class="img-fluid weather-img mb-4" alt="">
+                <p>{{ this.weather?.main.pressure }} mb</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mdb-card-text>
+    </mdb-card-body>
+  </mdb-card>
+  
+</div>
+<ng-template #loading>
+  <div class="container mt-5 mx-auto">
+      <div class="spinner-grow text-danger" style="position: fixed; top: 50%; left: 50%;"
+       role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+  </div>
+</ng-template>
+
+
+
